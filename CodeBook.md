@@ -1,6 +1,6 @@
 # getdata-033 Code Book
 
-This code bood describes the steps executed by the `run_analysys.R` script
+This code book describes the steps executed by the `run_analysys.R` script
 as set out in the getdata-033 Project [Project](https://class.coursera.org/getdata-033)
 
 1. Merges the training and the test sets to create one data set.
@@ -23,7 +23,9 @@ relating to corresponding record in the observations file.
 `X_xxx.txt` - a set of 561 observations corresponding to the activity in the activity
 file. This file is, by inspection, a set of 561 measurements each of which is
 16 character wide in the `X_xxx.txt` file. The observation file is a fixed width
-file of 8976 characters.
+file of 8976 characters. This fixed field width and fixed record width property
+of the observation file is used to advantage to extract only the relevant mean
+and standard deviation data from each row.
 
 `Subject_xxx.txt` - a single column file that contains the numeric subject
 number 1:30 relating to corresponding record in the observations file.
@@ -43,7 +45,7 @@ test and training files.
 The `run_analysis` script meets requirements 1 through 4 of the project objectives
 by performing the following operations:-
 
-1. GetFeatures <- function (base.dir, features.filename)
+### GetFeatures <- function (base.dir, features.filename)
 
 The `GetFeatures` function is called to process the `features.txt` file.
 
@@ -60,23 +62,23 @@ is passed to the R `read.fwf()` function when the observations are read.
 vector that describes how to read the fixed width observations file to return only
 the relevant features.
 
-# `feature.names` - a character vector of the names discovered by `GetFeatures`
-# `data.fmt` - a numeric vector that is used as input to the `read.fwf()` to only extract the desired data.
+* `feature.names` - a character vector of the names discovered by `GetFeatures`
+* `data.fmt` - a numeric vector that is used as input to the `read.fwf()` to only extract the desired data.
 
-2. MakeDescNames <- function(feature.names)
+### MakeDescNames <- function(feature.names)
 
 The `MakeDescNames` function is next called passing the `feature.names` vector returned by `GetFeatures`
 
 This function transforms the input feature names into more descriptive names by applying
 the replacements:
 
-# all "-" characters are replaced by "_"
-# `mean()` and `std()` are replaced by `Mean` and `StdDev` respectively
-# Leading `f` and leading `t` in the feature names are replaced by `Freq_` and `Time_`
+* all "-" characters are replaced by "_"
+* `mean()` and `std()` are replaced by `Mean` and `StdDev` respectively
+* Leading `f` and leading `t` in the feature names are replaced by `Freq_` and `Time_`
 
 `MakeNames` returns the vector of descriptive names resulting from the above transformations.
 
-3. GetData <- function(base.dir, activty.filename, subject.filename, observation.filename, observation.fwf)
+### GetData <- function(base.dir, activty.filename, subject.filename, observation.filename, observation.fwf)
 
 The `GetData` function is called to read the activity, subject and observation files from
 `base.dir` directory.
@@ -101,7 +103,7 @@ frame. The resulting `cbind()` is returned.
 The `run_analysis.R` script calls `GetData` once for each of the test and training
 sets of data.
 
-4. Combining and applying descriptive column names
+### Combining and applying descriptive column names
 
 Finally, the `run_analysis,R` script combine the test and training data frames
 using `rbind()` and applies the descriptive set of column names using `colnames()`
@@ -110,6 +112,6 @@ against the combined set.
 Once the script is executed the resulting combined data frame can be examined using
 `head(data.comb)` or `tail(data.comb)`.
 
-5. Tidy Data set
+### Tidy Data set
 
 Plain ran out of time!
